@@ -1,0 +1,16 @@
+--------------- Hamburguesas El Corral ---------------
+Datos cliente:
+	Nombre:	11545
+	Dirección:	541
+------------------------------------------------------
+PRODUCTOS:
+	Descripción	Nombre	Precio
+	PRODUCTO MOD:	criolla	22000
+	Sin.	lechuga	0
+	Sin.	piÃ±a	0
+
+------------------------------------------------------
+	Total neto:	22000
+	Total IVA:	4180
+------------------------------------------------------
+	TOTAL	26180
