@@ -81,7 +81,7 @@ public class Pedido {
 		factura.append("	Dirección:\t"+this.dirreccionCliente+"\n");
 		factura.append("------------------------------------------------------\n");
 		factura.append("PRODUCTOS:\n");
-		factura.append("	Descripción\tNombre\tCalorias\tPrecio\n");
+		factura.append("	Descripción\tNombre\tPrecio\tCalorias\n");
 		
 		for (int i=0;i<this.itemsPedido.size();i++)
 		{
