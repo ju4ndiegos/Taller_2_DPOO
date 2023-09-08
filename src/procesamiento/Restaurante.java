@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import modelo.Bebida;
 import modelo.Combo;
 import modelo.Ingrediente;
 import modelo.Pedido;
@@ -21,6 +22,7 @@ public class Restaurante {
 	private List<Ingrediente> ingredientes;
 	private Map<String,Producto> menuBase;
 	private List<Combo> combos;
+	private List<Bebida> bebidas;
 	private List<Pedido> pedidos;
 	
 	public List<Pedido> getPedidos() {
@@ -90,8 +92,9 @@ public class Restaurante {
 					
 					String nombre = partes[0];
 					int precioBase = Integer.parseInt(partes[1]);
+					int calorias = Integer.parseInt(partes[2]);
 					
-					ProductoMenu productoMenu = new ProductoMenu(nombre, precioBase);
+					ProductoMenu productoMenu = new ProductoMenu(nombre, precioBase,calorias);
 					
 					this.menuBase.put(nombre,productoMenu);
 					
@@ -129,10 +132,11 @@ public class Restaurante {
 				
 				String nombre = partes[0];
 				double descuento = Double.parseDouble(partes[1].replace("%", "")) / 100.0;
+				int calorias = Integer.parseInt(partes[2]);
 				
-				Combo combo = new Combo(descuento, nombre);
+				Combo combo = new Combo(descuento, nombre,calorias);
 				
-				for (int i=2;i<partes.length;i++)
+				for (int i=3;i<partes.length;i++)
 				{
 					String nombre_producto = partes[i];
 					
@@ -158,22 +162,72 @@ public class Restaurante {
 		
 	}
 	
-	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos) throws FileNotFoundException, IOException
+	
+private void cargarBebidas(File archivoCombos) throws FileNotFoundException, IOException
+	
+	{
+		
+		//Inicializo lista combos
+		
+		this.bebidas=new ArrayList<>();
+		
+		
+		// Abrir el archivo y leerlo línea por línea usando un BufferedReader
+		try (
+			BufferedReader br = new BufferedReader(new FileReader(archivoCombos))) 
+		{
+			String linea = br.readLine();
+			while (linea != null) 
+			{
+				
+				// Separar los valores que estaban en una línea
+				String[] partes = linea.split(";");
+				
+				String nombre = partes[0];
+				int precio = Integer.parseInt(partes[1]);
+				int calorias = Integer.parseInt(partes[2]);
+				
+				Bebida bebida = new Bebida(calorias,nombre,precio);
+				
+				
+				
+				
+				this.bebidas.add(bebida);
+				
+				linea = br.readLine();
+				
+				
+							
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos, File archivoBebidas) throws FileNotFoundException, IOException
 	{
 		cargarIngredientes(archivoIngredientes);
 		cargarMenu(archivoMenu);
 		cargarCombos(archivoCombos);
+		cargarBebidas(archivoBebidas);
 	}
 
 	public void iniciarPedido(String nombreCliente, String direccionCliente)
 	{
 		this.pedidoEnCurso = new Pedido(nombreCliente, direccionCliente);
-		this.pedidos.add(this.pedidoEnCurso);
 	}
-	public void cerrarYGuardarPedido() throws IOException
+	public boolean cerrarYGuardarPedido() throws IOException
 	{
 		File factura =new File(this.pedidoEnCurso.getIdPedido()+".txt");
 		this.pedidoEnCurso.guardarFactura(factura);
+		
+		boolean respuesta = this.pedidoEnCurso.equals(pedidos);
+		this.pedidos.add(this.pedidoEnCurso);
+		
+		this.pedidoEnCurso=null;
+		
+		return respuesta;
 	}
 	
 	public Pedido getPedidoEnCurso()
@@ -193,6 +247,10 @@ public class Restaurante {
 		for (Combo combo:this.combos)
 		{
 			listaMenu.add(combo);
+		}
+		for (Bebida bebida:this.bebidas)
+		{
+			listaMenu.add(bebida);
 		}
 		
 		return (ArrayList<Producto>) listaMenu;

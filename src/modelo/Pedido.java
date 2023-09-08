@@ -14,6 +14,10 @@ public class Pedido {
 	private String dirreccionCliente;
 	private List<Producto> itemsPedido;
 	
+	public List<Producto> getItemsPedido() {
+		return itemsPedido;
+	}
+
 	public Pedido(String nombreCliente, String dirreccionCliente)
 	{
 		this.dirreccionCliente=dirreccionCliente;
@@ -45,6 +49,16 @@ public class Pedido {
 		return precioNeto;
 	}
 	
+	private int getCaloriasTotales()
+	{
+		int caloriasTotales=0;
+		for (int i=0;i<this.itemsPedido.size();i++)
+		{
+			caloriasTotales+=this.itemsPedido.get(i).getCalorias();
+		}
+		return caloriasTotales;
+	}
+	
 	private int getPrecioTotalPedido()
 	{
 		return this.getPrecioNetoPedido()+this.getPrecioIVAPedido();
@@ -67,7 +81,7 @@ public class Pedido {
 		factura.append("	Dirección:\t"+this.dirreccionCliente+"\n");
 		factura.append("------------------------------------------------------\n");
 		factura.append("PRODUCTOS:\n");
-		factura.append("	Descripción\tNombre\tPrecio\n");
+		factura.append("	Descripción\tNombre\tCalorias\tPrecio\n");
 		
 		for (int i=0;i<this.itemsPedido.size();i++)
 		{
@@ -76,8 +90,9 @@ public class Pedido {
 		
 		
 		factura.append("\n------------------------------------------------------\n");
-		factura.append("	Total neto:\t"+this.getPrecioNetoPedido()+"\n");
-		factura.append("	Total IVA:\t"+this.getPrecioIVAPedido()+"\n");
+		factura.append("	Total calorias:\t"+this.getCaloriasTotales()+"\n");
+		factura.append("	Total neto:\t\t"+this.getPrecioNetoPedido()+"\n");
+		factura.append("	Total IVA:\t\t"+this.getPrecioIVAPedido()+"\n");
 		factura.append("------------------------------------------------------\n");
 		factura.append("	TOTAL\t"+this.getPrecioTotalPedido()+"\n");
 		
@@ -93,6 +108,52 @@ public class Pedido {
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write(this.generarTextoFactura());
         bufferedWriter.close();
+     
+	}
+	
+	public boolean equals(List<Pedido> pedidoList)
+	{
+		List<Producto> itemsA = this.getItemsPedido();
+		
+		
+		
+		boolean comparacion = false ;
+		
+		
+		int i=0;
+		while(comparacion==false & i < pedidoList.size())
+		{
+		List<Producto> itemsB = pedidoList.get(i).getItemsPedido();
+		
+		boolean comparador = true;
+		if (itemsB.size() == itemsA.size())
+		{
+			for (Producto B:itemsB)
+			{
+				boolean icomparacion = false;
+				int j = 0;
+				// B es el primer elemento de B
+				while (icomparacion==false & j<itemsA.size())
+				{
+					Producto A = itemsA.get(j);
+					if (B.equals(A))
+					{
+						icomparacion = true;
+					}
+				
+					j++;
+				}
+			//Si icomparacion es verdadera hay que seguir comprobando, si no. Hay un item en B que no está en a
+			comparador&=icomparacion;
+			
+			}
+			comparacion=comparador;
+		}
+		
+		i++;
+		}
+		
+		return comparacion;
 	}
 	
 }

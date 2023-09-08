@@ -7,11 +7,13 @@ public class Combo implements Producto{
 	private double descuento;
 	private String nombreCombo;
 	private List<Producto> itemsCombo;
+	private int calorias;
 	
-	public Combo(double descuento,String nombreCombo) 
+	public Combo(double descuento,String nombreCombo,int calorias) 
 	{
 		this.descuento = descuento;
 		this.nombreCombo = nombreCombo;
+		this.calorias = calorias;
 		
 		this.itemsCombo=new ArrayList<>();
 	}
@@ -44,7 +46,11 @@ public class Combo implements Producto{
 	@Override
 	public String generarTextoFactura() {
 		// TODO Auto-generated method stub
-		return "	COMBO:\t"+this.getNombre()+"\t"+this.getPrecio()+"\n";
+		return "	COMBO:\t"+this.getNombre()+"\t"+this.getPrecio()+"\t"+this.getCalorias()+"\n";
+	}
+
+	public int getCalorias() {
+		return calorias;
 	}
 
 }

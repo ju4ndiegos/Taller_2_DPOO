@@ -5,11 +5,13 @@ public class ProductoMenu implements Producto
 
 	private String nombre;
 	private int precioBase;
+	private int calorias;
 	
-	public ProductoMenu(String nombre,int precioBase) 
+	public ProductoMenu(String nombre,int precioBase,int calorias) 
 	{
 		this.nombre = nombre;
 		this.precioBase = precioBase;
+		this.calorias = calorias;
 	}
 
 	@Override
@@ -29,7 +31,11 @@ public class ProductoMenu implements Producto
 	public String generarTextoFactura() 
 	{
 		// TODO Auto-generated method stub
-		return "	PRODUCTO MENU\t"+this.getNombre()+"\t"+this.getPrecio()+"\n";
+		return "	PRODUCTO MENU\t"+this.getNombre()+"\t"+this.getPrecio()+"\t"+this.getCalorias()+"\n";
+	}
+
+	public int getCalorias() {
+		return calorias;
 	}
 	
 	

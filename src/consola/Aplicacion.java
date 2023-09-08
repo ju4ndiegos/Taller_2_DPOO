@@ -104,9 +104,20 @@ public class Aplicacion {
 		if (opcion ==3)
 			
 		{
-			this.restaurante.cerrarYGuardarPedido();
+			boolean respuesta = this.restaurante.cerrarYGuardarPedido();
 			
 			System.out.println("La factura ha quedado guardada");
+			
+			if (respuesta)
+			{
+				System.out.println("El pedido está repetido");
+			}
+			else 
+			{
+				System.out.println("El pedido no estaba repetido");
+			}
+			
+			
 		}
 		
 		if (opcion == 4)
@@ -182,8 +193,9 @@ public class Aplicacion {
 		File archivoIngredientes = new File("./data/ingredientes.txt");
 		File archivoMenu = new File ("./data/menu.txt") ;
 		File archivoCombos = new File ("./data/combos.txt");
+		File archivoBebidas = new File ("./data/bebidas.txt");
 		
-		this.restaurante.cargarInformacionRestaurante(archivoIngredientes,archivoMenu,archivoCombos);
+		this.restaurante.cargarInformacionRestaurante(archivoIngredientes,archivoMenu,archivoCombos,archivoBebidas);
 		
 		
 		//Seleccionar opciones-------------------------------------------------------------

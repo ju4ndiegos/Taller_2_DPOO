@@ -1,0 +1,5 @@
+agua cristal sin gas;5000;20
+agua cristal con gas;5000;10
+gaseosa;5000;150
+cerveza;10000;50
+vino;20000,60

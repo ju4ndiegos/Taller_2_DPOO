@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ProductoAjustado implements Producto 
 {	
-	ProductoMenu base;
-	List<Ingrediente> agregados;
-	List<Ingrediente> eliminados;
+	private ProductoMenu base;
+	private List<Ingrediente> agregados;
+	private List<Ingrediente> eliminados;
 	
 	public void addIngredientes(Ingrediente add)
 	{
@@ -42,7 +42,7 @@ public class ProductoAjustado implements Producto
 	@Override
 	public String generarTextoFactura() {
 		// TODO Auto-generated method stub
-		String factura ="	PRODUCTO MOD:\t"+this.getNombre()+"\t"+this.getPrecio()+"\n";
+		String factura ="	PRODUCTO MOD:\t"+this.getNombre()+"\t"+this.getPrecio()+"\t"+this.getCalorias()+"\n";
 
 		for (int i = 0; i<this.agregados.size();i++)
 		{
@@ -63,6 +63,10 @@ public class ProductoAjustado implements Producto
 		
 		this.agregados = new ArrayList<>();
 		this.eliminados = new ArrayList<>();
+	}
+
+	public int getCalorias() {
+		return this.base.getCalorias();
 	}
 
 }
